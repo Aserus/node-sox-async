@@ -15,7 +15,10 @@ sox.run({
 	inputFile: 'song.wav',
 	outputFile: 'song.flac'
 })
-.then(outputFile => ...)
+.then(outputFilePath => {
+	console.log(outputFilePath) // => song2.flac
+})
+.catch(err => console.log(err))
 ```
 
 Lower volume:

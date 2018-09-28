@@ -20,10 +20,13 @@ module.exports = class SoxClass{
 			switch(typeof(opts)){
 				case 'object':
 					if(opts.soxPath) this.setSoxPath(opts.soxPath);
+					if(opts.log) this.log = opts.log;
 					break;
 				case 'string':	this.setSoxPath(opts);	break;
 				default: break;
 			}
+
+			if(this.log && typeof(this.log)!='function') this.log = console.log;
 	}
 
 	setSoxPath(soxPath){	this.soxPath = soxPath;	}
@@ -43,7 +46,7 @@ module.exports = class SoxClass{
 			.concat(opts.effects || [])
 			.reduce((flattened, ele) => flattened.concat(ele), [])
 
-
+		if(this.log) this.log('-> SoxAsync.run',this.getSoxPath(),args.join(' '))
 		await spawnAsync(this.getSoxPath(), args)
 		return opts.outputFile;
 	}

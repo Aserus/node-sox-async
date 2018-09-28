@@ -1,4 +1,4 @@
-const { spawn,execFile,exec } = require('child_process');
+const { spawn } = require('child_process');
 const hashToArray = require('hash-to-array');
 
 

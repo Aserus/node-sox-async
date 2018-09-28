@@ -1,13 +1,15 @@
-const spawn = require('child_process').spawn;
+const { spawn,execFile,exec } = require('child_process');
 const hashToArray = require('hash-to-array');
 
 
 function spawnAsync(exe,args){
 	return new Promise((resolve,reject)=>{
+		let outText = '';
 		const sox = spawn(exe, args)
 		sox.on('error', reject)
+		sox.stdout.on('data', stdout => outText+=stdout)
 		sox.stderr.on('data', stderr => reject(new Error(stderr)))
-		sox.on('close', (code, signal) => code ? reject(new Error(signal)) : resolve())
+		sox.on('close', (code, signal) => code ? reject(new Error(signal)) : resolve(outText))
 	});
 }
 
@@ -45,4 +47,17 @@ module.exports = class SoxClass{
 		await spawnAsync(this.getSoxPath(), args)
 		return opts.outputFile;
 	}
+
+
+	async version(){
+		try{
+			let res = await spawnAsync(this.getSoxPath(),['--version']);
+			let arr = res.split(':');
+			if(arr.length>1)	res = arr[arr.length-1].trim();
+			return res.replace('SoX ','');
+		}catch(err){
+			return false;
+		}
+	}
+
 }

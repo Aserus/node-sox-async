@@ -1,0 +1,36 @@
+{
+  "name": "sox-async",
+  "version": "1.0.1",
+  "description": "Use the SoX audio utility in node!",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Aserus/node-sox-async.git"
+  },
+  "keywords": [
+    "sox",
+    "audio",
+    "utility",
+    "transcode",
+    "convert"
+  ],
+  "author": "Warus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Aserus/node-sox-async/issues"
+  },
+  "homepage": "https://github.com/Aserus/node-sox-async",
+  "dependencies": {
+    "hash-to-array": "^1.0.0"
+  },
+  "devDependencies": {
+    "mkdirp": "^0.5.0",
+    "mz": "^2.7.0",
+    "rimraf": "^2.2.8",
+    "tape": "^4.0.0",
+    "test-audio": "^2.1.0"
+  }
+}

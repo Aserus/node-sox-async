@@ -224,7 +224,7 @@ sox.run({
 # Install
 
 - Install SoX. You can [download it][sox-1442], or you can do `apt-get install sox`.
-- Install this package with [npm](https://nodejs.org/en/download): `npm install sox`
+- Install this package with [npm](https://nodejs.org/en/download): `npm install sox-async`
 
 # Test
 

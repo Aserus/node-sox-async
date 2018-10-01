@@ -42,7 +42,7 @@ module.exports = class SoxClass extends EventEmitter{
 		if (!opts.inputFile) throw new Error('options.inputFile is a required parameter')
 		if (!opts.outputFile) throw new Error('options.outputFile is a required parameter')
 
-		if(!opt.global)	opt.global = ['--show-progress']
+		if(!opts.global)	opts.global = ['--show-progress']
 
 
 		const args = []

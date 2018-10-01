@@ -1,6 +1,6 @@
 {
   "name": "sox-async",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Use the SoX audio utility in node!",
   "main": "index.js",
   "scripts": {

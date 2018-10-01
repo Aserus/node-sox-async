@@ -1,21 +1,26 @@
 const { spawn } = require('child_process');
 const hashToArray = require('hash-to-array');
+const { EventEmitter } = require('events');
+const readline      = require('readline');
 
 
 function spawnAsync(exe,args){
 	return new Promise((resolve,reject)=>{
 		let outText = '';
 		const sox = spawn(exe, args)
+		sox.stdout.on('data', stdout => outText+=stdout);
+		//sox.stderr.on('data', stderr => reject(new Error(stderr)))
 		sox.on('error', reject)
-		sox.stdout.on('data', stdout => outText+=stdout)
-		sox.stderr.on('data', stderr => reject(new Error(stderr)))
 		sox.on('close', (code, signal) => code ? reject(new Error(signal)) : resolve(outText))
 	});
 }
 
 
-module.exports = class SoxClass{
+
+
+module.exports = class SoxClass extends EventEmitter{
 	constructor(opts){
+		super();
 		if(opts)
 			switch(typeof(opts)){
 				case 'object':
@@ -47,8 +52,36 @@ module.exports = class SoxClass{
 			.reduce((flattened, ele) => flattened.concat(ele), [])
 
 		if(this.log) this.log('-> SoxAsync.run',this.getSoxPath(),args.join(' '))
-		await spawnAsync(this.getSoxPath(), args)
+		this.emit('start')
+		try{
+			await this._spawn(this.getSoxPath(), args)
+			this.emit('end')
+		}catch(err){
+			this.emit('error',err);
+			throw error;
+		}
+
 		return opts.outputFile;
+	}
+
+	_spawn(exe,args){
+
+		return new Promise((resolve,reject)=>{
+			const sox = spawn(exe, args)
+
+			let dataOut = '';
+
+			sox.on('error', reject)
+			sox.stderr.on('data', stdout => {
+				dataOut+=stdout;
+				this.emit('progress',{stdout:stdout.toString()})
+			})
+			//sox.stderr.on('data', stderr => reject(new Error(stderr)))
+			sox.on('close', (code, signal) => code ? reject(new Error(dataOut)) : resolve())
+
+
+		});
+
 	}
 
 
@@ -62,5 +95,4 @@ module.exports = class SoxClass{
 			return false;
 		}
 	}
-
 }

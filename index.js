@@ -1,7 +1,8 @@
+const { EventEmitter } = require('events');
 const { spawn } = require('child_process');
 const hashToArray = require('hash-to-array');
-const { EventEmitter } = require('events');
-const readline      = require('readline');
+
+
 
 
 function spawnAsync(exe,args){
